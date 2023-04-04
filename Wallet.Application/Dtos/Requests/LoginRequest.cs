@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Wallet.Application.Dtos.Requests
 {
-    internal class LoginRequest
+    public class LoginRequestDto: BaseRequestDto
     {
+       
     }
 }

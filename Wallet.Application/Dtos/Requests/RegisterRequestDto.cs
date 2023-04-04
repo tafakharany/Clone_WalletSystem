@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Wallet.Application.Dtos.Requests
 {
-    internal class RegisterRequestDto
+    public class RegisterRequestDto :BaseRequestDto
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
     }
 }
