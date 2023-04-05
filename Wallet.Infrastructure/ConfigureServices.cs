@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wallet.Application.Contracts;
 using Wallet.Infrastructure.Persitstance;
+using Wallet.Infrastructure.Services;
 
 namespace Wallet.Infrastructure
 {
@@ -16,11 +17,11 @@ namespace Wallet.Infrastructure
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
         {
 
-            //services.AddScoped<IPaymentInstitutionService, PaymentInstitutionService>();
-            //services.AddScoped<IBudgetCategoryService, BudgetCategoryService>();
+            services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IWalletManageService, WalletService>();
 
-            //services.AddHttpClient();
-            //services.AddScoped<IIdentityService, IdentityService>();
+            services.AddHttpClient();
+         
 
             //Add DBcontext using SQL server 
             var connectionString = configuration.GetConnectionString("Default");
