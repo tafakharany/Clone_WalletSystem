@@ -178,6 +178,15 @@ namespace Wallet.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User is not registered to the system.
+        /// </summary>
+        public static string UserNotFound {
+            get {
+                return ResourceManager.GetString("UserNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incorrect mobile number or password.
         /// </summary>
         public static string WrongData {

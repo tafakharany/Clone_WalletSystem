@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Azure.Core;
 using FluentValidation;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -14,7 +15,7 @@ using Wallet.Resources;
 
 namespace Wallet.Controllers
 {
-
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class WalletProcessesController : APIBaseController<WalletProcessesController>
     {
         private readonly IValidator<TransferRequestDto> _validator;
@@ -25,7 +26,7 @@ namespace Wallet.Controllers
             _validator = validator;
             _service = service;
         }
-        [Authorize]
+
         [HttpPost("SendMoney")]
         public async Task<ActionResult<ResponseDto>> TransferAmountToOtherWalletAccount([FromBody] TransferRequestDto request)
         {
@@ -37,10 +38,10 @@ namespace Wallet.Controllers
             try
             {
                 var user = HttpContext.User as ClaimsPrincipal;
-                var sender = user.FindFirstValue(ClaimTypes.MobilePhone);
-                if (sender != null)
+                var userMobile = user.FindFirstValue(ClaimTypes.MobilePhone);
+                if (userMobile != null)
                 {
-                    request.SenderMobileNumber = sender;
+                    request.SenderMobileNumber = userMobile;
                 }
 
                 var validationResult = _validator.Validate(request);
@@ -64,7 +65,36 @@ namespace Wallet.Controllers
             return Ok(response);
         }
 
+        [HttpGet("CheckBalance")]
+        public async Task<ActionResult<BalanceResponseDto>> CheckBalance()
+        {
+            BalanceResponseDto response = new()
+            {
+                ResponseCode = ResponseCodes.FailedToProcess,
+                ResponseMessage = Resource.Failed,
+                Balance = decimal.Zero
+            };
 
+            try
+            {
+                var user = HttpContext.User as ClaimsPrincipal;
+                var userMobile = user.FindFirstValue(ClaimTypes.MobilePhone);
+                if (userMobile == null)
+                {
+                    return BadRequest(response);
+                }
+                response = await _service.CheckBalance(userMobile ?? string.Empty);
+
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message, ex.StackTrace);
+                response.ResponseCode = ResponseCodes.GeneralError;
+                response.ResponseMessage = Resource.GeneralError;
+            }
+
+            return Ok(response);
+        }
 
     }
 }

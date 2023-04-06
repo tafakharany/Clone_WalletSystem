@@ -156,6 +156,9 @@
   <data name="Sucess" xml:space="preserve">
     <value>Successfully Processed</value>
   </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User is not registered to the system</value>
+  </data>
   <data name="WrongData" xml:space="preserve">
     <value>Incorrect mobile number or password</value>
   </data>

@@ -32,7 +32,7 @@ namespace Wallet.Infrastructure.Services
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly IWalletManageService _walletManageService;
-        string serializedResponse = string.Empty;
+        
         public IdentityService(UserManager<User> userManager,
             SignInManager<User> signInManager,
             IMapper mapper,
@@ -133,7 +133,7 @@ namespace Wallet.Infrastructure.Services
 
                     if (!registered.Succeeded)
                     {
-                        transaction.RollbackAsync();
+                        await transaction.RollbackAsync();
                         response.ResponseMessage ="Error While Registring the user" + string.Join(',', SetErrorMessage(registered.Errors));
                         serializedResponse = JsonConvert.SerializeObject(response);
                         Logger.LogError(serializedResponse);
@@ -142,7 +142,7 @@ namespace Wallet.Infrastructure.Services
                     var cashInResponse = await _walletManageService.CashIn(request.MobileNumber);
                     if(!cashInResponse.ResponseCode.Equals(ResponseCodes.ProcessedSuccessfully))
                     {
-                        transaction.RollbackAsync();
+                        await transaction.RollbackAsync();
                         response.ResponseMessage = cashInResponse.ResponseMessage;
                         response.ResponseCode = cashInResponse.ResponseCode;
                         serializedResponse = JsonConvert.SerializeObject(cashInResponse);
@@ -152,7 +152,7 @@ namespace Wallet.Infrastructure.Services
 
                     response.ResponseMessage = Resource.Sucess;
                     response.ResponseCode = ResponseCodes.ProcessedSuccessfully;
-                    transaction.CommitAsync();
+                    await transaction.CommitAsync();
                 }
                 else
                 {
