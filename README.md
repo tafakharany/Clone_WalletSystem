@@ -1,4 +1,4 @@
-# To Run this Sln you need to fllow these instructions 
+# To Run this Sln you need to follow these instructions 
 ## 1- change the connection string in appsettings.json
 ## 2- Open Nuget Manager Console and write -> Update-Database
 
