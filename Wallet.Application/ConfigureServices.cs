@@ -19,6 +19,7 @@ namespace Wallet.Application
             services.AddAutoMapper(typeof(Profiles));
             services.AddScoped<IValidator<RegisterRequestDto>, RegisterRequestValidator>();
             services.AddScoped<IValidator<LoginRequestDto>, LoginRequestValidator>();
+            services.AddScoped<IValidator<TransferRequestDto>, TransferRequestValidator>();
             return services;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
 using Wallet.Application.Contracts;
 using Wallet.Application.Dtos.Common;
@@ -23,7 +24,6 @@ namespace Wallet.Infrastructure.Services
 
         public async Task<ResponseDto> CashIn(string mobileNumber)
         {
-            using var transaction = _context.Database.BeginTransaction();
             ResponseDto response = new()
             {
                 ResponseCode = ResponseCodes.FailedToProcess,
@@ -39,7 +39,6 @@ namespace Wallet.Infrastructure.Services
                 {
                     response.ResponseMessage = Resource.SenderMobileNotFound;
                     response.ResponseCode = ResponseCodes.FailedToProcess;
-                    await transaction.RollbackAsync();
                     return response;
                 }
                 
@@ -58,7 +57,6 @@ namespace Wallet.Infrastructure.Services
                 var isSaved = await _context.SaveChangesAsync();
                 if (isSaved > 0)
                 {
-                    await transaction.CommitAsync();
                     response.ResponseMessage = Resource.Sucess;
                     response.ResponseCode = ResponseCodes.ProcessedSuccessfully;
                     return response;
@@ -69,7 +67,6 @@ namespace Wallet.Infrastructure.Services
                 Logger.LogError(ex.Message, ex.StackTrace);
                 response.ResponseMessage = Resource.GeneralError;
                 response.ResponseCode = ResponseCodes.GeneralError;
-                await transaction.RollbackAsync();
             }
             return response;
         }

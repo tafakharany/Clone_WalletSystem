@@ -61,7 +61,7 @@ namespace Wallet.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to this mobileNumber is already existing.
+        ///   Looks up a localized string similar to this mobileNumber is already registerd, go to login.
         /// </summary>
         public static string DuplicateMobileNumber {
             get {
@@ -93,6 +93,15 @@ namespace Wallet.Resources {
         public static string InvalidMobileNumber {
             get {
                 return ResourceManager.GetString("InvalidMobileNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Be at least 8 characters long, Contain at least one uppercase letter, Contain at least one lowercase letter, Contain at least one digit (0-9), and Contain at least one special character (not a letter or digit).
+        /// </summary>
+        public static string InvalidPWD {
+            get {
+                return ResourceManager.GetString("InvalidPWD", resourceCulture);
             }
         }
         
@@ -129,6 +138,15 @@ namespace Wallet.Resources {
         public static string NotValidEmail {
             get {
                 return ResourceManager.GetString("NotValidEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is too short, Password minimum length is 8 digits.
+        /// </summary>
+        public static string PwdMinLentgh {
+            get {
+                return ResourceManager.GetString("PwdMinLentgh", resourceCulture);
             }
         }
         

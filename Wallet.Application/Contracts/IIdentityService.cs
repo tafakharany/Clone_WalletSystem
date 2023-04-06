@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Wallet.Application.Dtos.Requests;
 using Wallet.Application.Dtos.Response;
-using Wallet.Application.Dtos.Response.Response;
 
 namespace Wallet.Application.Contracts
 {

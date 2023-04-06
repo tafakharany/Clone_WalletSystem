@@ -20,6 +20,9 @@ namespace Wallet.Application.Dtos.Requests.Validators
                 .MinimumLength(11).WithMessage(x => $"{{PropertyName}}: {Resource.MinLengthIs11}")
                 .MaximumLength(15).WithMessage(x => $"{{PropertyName}}: {Resource.MaxLengthIs15}")
                 .Matches(RegularExpressions.MobileNumber).WithMessage(x => $"{{PropertyName}}: {Resource.InvalidMobileNumber}");
+
+            RuleFor(x=>x.Password).MinimumLength(8).WithMessage(x => $"{{PropertyName}}: {Resource.PwdMinLentgh}")
+                .Matches(RegularExpressions.Password).WithMessage(x => $"{{PropertyName}}: {Resource.InvalidPWD}");
         }
     }
 }

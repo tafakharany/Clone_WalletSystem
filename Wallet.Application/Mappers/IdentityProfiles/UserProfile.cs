@@ -13,7 +13,8 @@ namespace Wallet.Application.Mappers.IdentityProfiles
         public UserProfile()
         {
             #region Register
-            CreateMap<RegisterRequestDto, User>();
+            CreateMap<RegisterRequestDto, User>()
+                .ForMember(dest=>dest.UserName, opt=>opt.MapFrom(src=>src.MobileNumber));
             #endregion
             #region Login
 

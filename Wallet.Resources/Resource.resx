@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DuplicateMobileNumber" xml:space="preserve">
-    <value>this mobileNumber is already existing</value>
+    <value>this mobileNumber is already registerd, go to login</value>
   </data>
   <data name="Failed" xml:space="preserve">
     <value>Faild to process request</value>
@@ -128,6 +128,9 @@
   </data>
   <data name="InvalidMobileNumber" xml:space="preserve">
     <value>Mobile number is not valid </value>
+  </data>
+  <data name="InvalidPWD" xml:space="preserve">
+    <value>Be at least 8 characters long, Contain at least one uppercase letter, Contain at least one lowercase letter, Contain at least one digit (0-9), and Contain at least one special character (not a letter or digit)</value>
   </data>
   <data name="MaxLengthIs15" xml:space="preserve">
     <value>Maximum Mobile number length is 15 didgits</value>
@@ -140,6 +143,9 @@
   </data>
   <data name="NotValidEmail" xml:space="preserve">
     <value>Email is not valid</value>
+  </data>
+  <data name="PwdMinLentgh" xml:space="preserve">
+    <value>Password is too short, Password minimum length is 8 digits</value>
   </data>
   <data name="RecipientMobileISNotFound" xml:space="preserve">
     <value>this recipient mobile is not registered in the system</value>

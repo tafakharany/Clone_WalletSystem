@@ -19,15 +19,16 @@ namespace Wallet.Infrastructure
 
             services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IWalletManageService, WalletService>();
-
             services.AddHttpClient();
-         
 
             //Add DBcontext using SQL server 
             var connectionString = configuration.GetConnectionString("Default");
             services.AddDbContext<ApplicationDbContext>(options =>
             {
                 options.UseSqlServer(connectionString);
+                //, b => b.MigrationsAssembly(assemblyName: "Wallet.Infrastructure"));//typeof(ApplicationDbContext).Assembly.GetName().Name));
+
+
             });
 
             services.AddScoped<IApplicationDbContext>(
