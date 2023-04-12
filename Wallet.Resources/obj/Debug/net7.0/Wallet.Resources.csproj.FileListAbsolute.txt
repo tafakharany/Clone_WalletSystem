@@ -1,0 +1,17 @@
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\bin\Debug\net7.0\Wallet.Resources.deps.json
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\bin\Debug\net7.0\Wallet.Resources.dll
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\bin\Debug\net7.0\Wallet.Resources.pdb
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\bin\Debug\net7.0\ar\Wallet.Resources.resources.dll
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\Wallet.Resources.csproj.AssemblyReference.cache
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\Wallet.Resources.Resource.resources
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\Wallet.Resources.Resource.ar.resources
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\Wallet.Resources.csproj.GenerateResource.cache
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\Wallet.Resources.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\Wallet.Resources.AssemblyInfoInputs.cache
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\Wallet.Resources.AssemblyInfo.cs
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\Wallet.Resources.csproj.CoreCompileInputs.cache
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\ar\Wallet.Resources.resources.dll
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\Wallet.Resources.dll
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\refint\Wallet.Resources.dll
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\Wallet.Resources.pdb
+C:\Users\tahaa\source\repos\Wallet\Wallet.Resources\obj\Debug\net7.0\ref\Wallet.Resources.dll

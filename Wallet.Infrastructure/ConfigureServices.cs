@@ -22,13 +22,11 @@ namespace Wallet.Infrastructure
             services.AddHttpClient();
 
             //Add DBcontext using SQL server 
-            var connectionString = configuration.GetConnectionString("Default");
+            var connectionString = configuration.GetConnectionString("PgsConnectionString");
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(connectionString);
+                options.UseNpgsql(connectionString);
                 //, b => b.MigrationsAssembly(assemblyName: "Wallet.Infrastructure"));//typeof(ApplicationDbContext).Assembly.GetName().Name));
-
-
             });
 
             services.AddScoped<IApplicationDbContext>(
