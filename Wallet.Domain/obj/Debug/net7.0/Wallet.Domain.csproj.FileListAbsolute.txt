@@ -1,0 +1,12 @@
+C:\Users\tahaa\source\repos\Wallet\Wallet.Domain\bin\Debug\net7.0\Wallet.Domain.deps.json
+C:\Users\tahaa\source\repos\Wallet\Wallet.Domain\bin\Debug\net7.0\Wallet.Domain.dll
+C:\Users\tahaa\source\repos\Wallet\Wallet.Domain\bin\Debug\net7.0\Wallet.Domain.pdb
+C:\Users\tahaa\source\repos\Wallet\Wallet.Domain\obj\Debug\net7.0\Wallet.Domain.csproj.AssemblyReference.cache
+C:\Users\tahaa\source\repos\Wallet\Wallet.Domain\obj\Debug\net7.0\Wallet.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tahaa\source\repos\Wallet\Wallet.Domain\obj\Debug\net7.0\Wallet.Domain.AssemblyInfoInputs.cache
+C:\Users\tahaa\source\repos\Wallet\Wallet.Domain\obj\Debug\net7.0\Wallet.Domain.AssemblyInfo.cs
+C:\Users\tahaa\source\repos\Wallet\Wallet.Domain\obj\Debug\net7.0\Wallet.Domain.csproj.CoreCompileInputs.cache
+C:\Users\tahaa\source\repos\Wallet\Wallet.Domain\obj\Debug\net7.0\Wallet.Domain.dll
+C:\Users\tahaa\source\repos\Wallet\Wallet.Domain\obj\Debug\net7.0\refint\Wallet.Domain.dll
+C:\Users\tahaa\source\repos\Wallet\Wallet.Domain\obj\Debug\net7.0\Wallet.Domain.pdb
+C:\Users\tahaa\source\repos\Wallet\Wallet.Domain\obj\Debug\net7.0\ref\Wallet.Domain.dll

@@ -124,13 +124,13 @@
     <value>Faild to process request</value>
   </data>
   <data name="GeneralError" xml:space="preserve">
-    <value>General Error</value>
+    <value>General Error , if it's repeated you must call the call center</value>
   </data>
   <data name="InvalidMobileNumber" xml:space="preserve">
     <value>Mobile number is not valid </value>
   </data>
   <data name="InvalidPWD" xml:space="preserve">
-    <value>Be at least 8 characters long, Contain at least one uppercase letter, Contain at least one lowercase letter, Contain at least one digit (0-9), and Contain at least one special character (not a letter or digit)</value>
+    <value>Password must be at least 8 characters long, Contain at least one uppercase letter, Contain at least one lowercase letter, Contain at least one digit (0-9), and Contain at least one special character (not a letter or digit)</value>
   </data>
   <data name="MaxLengthIs15" xml:space="preserve">
     <value>Maximum Mobile number length is 15 didgits</value>
@@ -156,7 +156,13 @@
   <data name="Sucess" xml:space="preserve">
     <value>Successfully Processed</value>
   </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User is not registered to the system</value>
+  </data>
   <data name="WrongData" xml:space="preserve">
     <value>Incorrect mobile number or password</value>
+  </data>
+  <data name="YouCannotSendMOneyToYourWallet" xml:space="preserve">
+    <value>Recipent is the same as the sender</value>
   </data>
 </root>

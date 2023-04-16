@@ -14,6 +14,7 @@ namespace Wallet.Infrastructure.Services
         public ILogger<T> Logger { get; set; }
         private readonly IMapper _mapper;
         private ILogger<T> _logger;
+        protected string serializedResponse = string.Empty;
         public BaseService(IMapper mapper, ILogger<T> logger )
         {
             _mapper = mapper;

@@ -12,5 +12,6 @@ namespace Wallet.Application.Contracts
     {
         Task<ResponseDto> TransferToOthers(TransferRequestDto transferRequest);
         Task<ResponseDto> CashIn(string mobileNumber);
+        Task<BalanceResponseDto> CheckBalance(string userMobile);
     }
 }

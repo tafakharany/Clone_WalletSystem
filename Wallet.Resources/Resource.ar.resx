@@ -98,4 +98,53 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
+	<data name="YouCannotSendMOneyToYourWallet" xml:space="preserve">
+		<value>المرسل و المتلقي هما نفس الشخص</value>
+	</data>
+	<data name="WrongData" xml:space="preserve">
+		<value>رقم المحمول أو الرقم السري غير صحيح</value>
+	</data>
+	<data name="UserNotFound" xml:space="preserve">
+		<value>هذا الرقم غير مسجل بالمحفظة </value>
+	</data>
+	<data name="Sucess" xml:space="preserve">
+		<value>تمت العملية بنجاح</value>
+	</data>
+	<data name="SenderMobileNotFound" xml:space="preserve">
+		<value>الرقم المرسل غير مسجل بالنظام</value>
+	</data>
+	<data name="RecipientMobileISNotFound" xml:space="preserve">
+		<value>الرقم المتلقي غير مسجل بالنظام</value>
+	</data>
+	<data name="PwdMinLentgh" xml:space="preserve">
+		<value>الرقم السري قصير جدا يجب أن يكون 8 أحرف على الاقل</value>
+	</data>
+	<data name="NotValidEmail" xml:space="preserve">
+		<value>البريد الالكتروني غير صحيح</value>
+	</data>
+	<data name="NotFound" xml:space="preserve">
+		<value>{0} غير موجود</value>
+	</data>
+	<data name="MinLengthIs11" xml:space="preserve">
+		<value>رقم المحول يجب أن يكون 11 رقم على الأقل</value>
+	</data>
+	<data name="MaxLengthIs15" xml:space="preserve">
+		<value>رقم المحمول يجب أن  لا يتخطى  15 رقم</value>
+	</data>
+	<data name="InvalidPWD" xml:space="preserve">
+		<value>يجب أن تتكون كلمة المرور من 8 أحرف على الأقل ، وتحتوي على حرف كبير واحد على الأقل ، وتحتوي على حرف صغير واحد على الأقل ، وتحتوي على رقم واحد على الأقل (0-9) ، وتحتوي على حرف خاص واحد على الأقل (ليس حرفًا أو رقمًا)
+</value>
+	</data>
+	<data name="InvalidMobileNumber" xml:space="preserve">
+		<value>رقم المحمول غير صحيح</value>
+	</data>
+	<data name="GeneralError" xml:space="preserve">
+		<value>خطأ عام , لو تكرر الامر يجب الاتصال بخدمة العملاء </value>
+	</data>
+	<data name="Failed" xml:space="preserve">
+		<value>فشل في اتمام الطلب</value>
+	</data>
+	<data name="DuplicateMobileNumber" xml:space="preserve">
+		<value>الرقم مسجل بالفعل توجه لتسجيل الدخول</value>
+	</data>
 </root>

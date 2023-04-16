@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Wallet.Application.Contracts;
 using Wallet.Application.Dtos.Common;
 using Wallet.Application.Dtos.Requests;
@@ -39,6 +40,8 @@ namespace Wallet.Infrastructure.Services
                 {
                     response.ResponseMessage = Resource.SenderMobileNotFound;
                     response.ResponseCode = ResponseCodes.FailedToProcess;
+                    serializedResponse = JsonConvert.SerializeObject(response);
+                    Logger.LogError(serializedResponse);
                     return response;
                 }
                 
@@ -67,7 +70,47 @@ namespace Wallet.Infrastructure.Services
                 Logger.LogError(ex.Message, ex.StackTrace);
                 response.ResponseMessage = Resource.GeneralError;
                 response.ResponseCode = ResponseCodes.GeneralError;
+                serializedResponse = JsonConvert.SerializeObject(response);
+                Logger.LogError(serializedResponse);
             }
+            return response;
+        }
+
+        public async Task<BalanceResponseDto> CheckBalance(string userMobile)
+        {
+            BalanceResponseDto response = new()
+            {
+                ResponseCode = ResponseCodes.FailedToProcess,
+                ResponseMessage = Resource.Failed,
+                Balance = decimal.Zero
+            };
+
+            try
+            {
+                var user = await _context.Set<User>()
+                    .FirstOrDefaultAsync(x => x.MobileNumber.Equals(userMobile));
+                if (user == null)
+                {
+                    response.ResponseMessage = Resource.UserNotFound;
+                    response.ResponseCode = ResponseCodes.FailedToProcess;
+                    serializedResponse = JsonConvert.SerializeObject(response);
+                    Logger.LogError(serializedResponse);
+                    return response;
+                }
+
+                response.ResponseMessage = Resource.Sucess;
+                response.ResponseCode = ResponseCodes.ProcessedSuccessfully;
+                response.Balance = user.Balance;
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex.Message, ex.StackTrace);
+                response.ResponseMessage = Resource.GeneralError;
+                response.ResponseCode = ResponseCodes.GeneralError;
+                serializedResponse = JsonConvert.SerializeObject(response);
+                Logger.LogError(serializedResponse);
+            }
+
             return response;
         }
 
