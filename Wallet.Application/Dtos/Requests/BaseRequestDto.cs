@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wallet.Application.Dtos.Requests
+namespace Wallet.Application.Dtos.Requests;
+
+public class BaseRequestDto
 {
-    public class BaseRequestDto
-    {
-        public string MobileNumber { get; set; }
-        public string Password { get; set; }
-    }
+    public string MobileNumber { get; set; }
+    public string Password { get; set; }
 }

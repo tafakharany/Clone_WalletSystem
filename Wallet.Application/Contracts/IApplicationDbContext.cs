@@ -8,14 +8,13 @@ using static System.Formats.Asn1.AsnWriter;
 using Microsoft.EntityFrameworkCore;
 using Wallet.Domain.Entities;
 
-namespace Wallet.Application.Contracts
+namespace Wallet.Application.Contracts;
+
+public interface IApplicationDbContext
 {
-    public interface IApplicationDbContext
-    {
-        DbSet<User> Users { get; }
-        DbSet<Transaction> Transactions { get; }
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken);
-    }
+    DbSet<User> Users { get; }
+    DbSet<Transaction> Transactions { get; }
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
 
 

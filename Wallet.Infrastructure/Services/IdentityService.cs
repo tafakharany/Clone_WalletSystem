@@ -23,178 +23,177 @@ using Wallet.Domain.Entities;
 using Wallet.Infrastructure.Persitstance;
 using Wallet.Resources;
 
-namespace Wallet.Infrastructure.Services
+namespace Wallet.Infrastructure.Services;
+
+public class IdentityService : BaseService<IdentityService>, IIdentityService
 {
-    public class IdentityService : BaseService<IdentityService>, IIdentityService
+    private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
+    private readonly ApplicationDbContext _context;
+    private readonly IConfiguration _configuration;
+    private readonly IWalletManageService _walletManageService;
+    
+    public IdentityService(UserManager<User> userManager,
+        SignInManager<User> signInManager,
+        IMapper mapper,
+        ILogger<IdentityService> logger,
+        IConfiguration configuration, ApplicationDbContext context, 
+        IWalletManageService walletManageService) : base(mapper, logger)
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly ApplicationDbContext _context;
-        private readonly IConfiguration _configuration;
-        private readonly IWalletManageService _walletManageService;
+        _userManager = userManager;
+        _signInManager = signInManager;
+        _configuration = configuration;
+        _context = context;
+        _walletManageService = walletManageService;
+    }
+
+    public async Task<bool> IsMobileRegistered(string mobileNumber)
+    {
+        var result = false;
+        try
+        {
+            var isMobileExists =await _context.Users.FirstOrDefaultAsync(x => x.MobileNumber.Equals(mobileNumber));
+            if (isMobileExists == null)
+            {
+                return result;
+            }
+            result = true;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex.Message, ex.StackTrace);
+        }
+        return result;
+    }
+
+    public async Task<LoginResponseDto> Login(LoginRequestDto request)
+    {
+        LoginResponseDto response = new()
+        {
+            ResponseCode = ResponseCodes.FailedToProcess,
+            ResponseMessage = Resource.Failed
+        };
+        try
+        {
+            User user = await _userManager.FindByNameAsync(request.MobileNumber);
+
+            if (user == null)
+            {
+                response.ResponseMessage = string.Format(Resource.NotFound,"user") ;
+                response.ResponseCode = ResponseCodes.NotFound;
+                return response;
+            }
+            var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+
+            if (!result.Succeeded)
+            {
+                response.ResponseMessage = Resource.WrongData;
+                response.ResponseCode = ResponseCodes.FailedToProcess;
+                serializedResponse = JsonConvert.SerializeObject(response);
+                Logger.LogError(serializedResponse);
+            }
+            else
+            {
+                var token = GenerateToken(request);
+                response.ExpiresIn = 3600;
+                response.AccessToken = token;
+                response.ResponseCode = ResponseCodes.ProcessedSuccessfully;
+                response.ResponseMessage = Resource.Sucess;
+            }
+        }
+        catch (Exception ex)
+        {
+
+            Logger.LogError(ex.Message, ex.StackTrace);
+            response.ResponseMessage = Resource.GeneralError;
+            response.ResponseCode = ResponseCodes.GeneralError;
+            serializedResponse = JsonConvert.SerializeObject(response);
+            Logger.LogError(serializedResponse);
+        }
+        return response;
+    }
+
+    public async Task<RegisterResponseDto> RegisterUser(RegisterRequestDto request)
+    {
+        RegisterResponseDto response = new ()
+        {
+            ResponseMessage = Resource.Failed,
+            ResponseCode = ResponseCodes.FailedToProcess
+        };
         
-        public IdentityService(UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            IMapper mapper,
-            ILogger<IdentityService> logger,
-            IConfiguration configuration, ApplicationDbContext context, 
-            IWalletManageService walletManageService) : base(mapper, logger)
+        try
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _configuration = configuration;
-            _context = context;
-            _walletManageService = walletManageService;
-        }
-
-        public async Task<bool> IsMobileRegistered(string mobileNumber)
-        {
-            var result = false;
-            try
+            using var transaction = _context.Database.BeginTransaction();
+            
+            var isAlreadyUserWithSameMobileNumber = await IsMobileRegistered(request.MobileNumber);
+            if (!isAlreadyUserWithSameMobileNumber)
             {
-                var isMobileExists =await _context.Users.FirstOrDefaultAsync(x => x.MobileNumber.Equals(mobileNumber));
-                if (isMobileExists == null)
+                var user = Mapper.Map<User>(request);
+                var registered = await _userManager.CreateAsync(user, request.Password);
+
+                if (!registered.Succeeded)
                 {
-                    return result;
-                }
-                result = true;
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex.Message, ex.StackTrace);
-            }
-            return result;
-        }
-
-        public async Task<LoginResponseDto> Login(LoginRequestDto request)
-        {
-            LoginResponseDto response = new()
-            {
-                ResponseCode = ResponseCodes.FailedToProcess,
-                ResponseMessage = Resource.Failed
-            };
-            try
-            {
-                User user = await _userManager.FindByNameAsync(request.MobileNumber);
-
-                if (user == null)
-                {
-                    response.ResponseMessage = string.Format(Resource.NotFound,"user") ;
-                    response.ResponseCode = ResponseCodes.NotFound;
+                    await transaction.RollbackAsync();
+                    response.ResponseMessage ="Error While Registring the user" + string.Join(',', SetErrorMessage(registered.Errors));
+                    serializedResponse = JsonConvert.SerializeObject(response);
+                    Logger.LogError(serializedResponse);
                     return response;
                 }
-                var result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
-
-                if (!result.Succeeded)
+                var cashInResponse = await _walletManageService.CashIn(request.MobileNumber);
+                if(!cashInResponse.ResponseCode.Equals(ResponseCodes.ProcessedSuccessfully))
                 {
-                    response.ResponseMessage = Resource.WrongData;
-                    response.ResponseCode = ResponseCodes.FailedToProcess;
-                    serializedResponse = JsonConvert.SerializeObject(response);
+                    await transaction.RollbackAsync();
+                    response.ResponseMessage = cashInResponse.ResponseMessage;
+                    response.ResponseCode = cashInResponse.ResponseCode;
+                    serializedResponse = JsonConvert.SerializeObject(cashInResponse);
                     Logger.LogError(serializedResponse);
+                    return response;
                 }
-                else
-                {
-                    var token = GenerateToken(request);
-                    response.ExpiresIn = 3600;
-                    response.AccessToken = token;
-                    response.ResponseCode = ResponseCodes.ProcessedSuccessfully;
-                    response.ResponseMessage = Resource.Sucess;
-                }
+
+                response.ResponseMessage = Resource.Sucess;
+                response.ResponseCode = ResponseCodes.ProcessedSuccessfully;
+                await transaction.CommitAsync();
             }
-            catch (Exception ex)
+            else
             {
-
-                Logger.LogError(ex.Message, ex.StackTrace);
-                response.ResponseMessage = Resource.GeneralError;
-                response.ResponseCode = ResponseCodes.GeneralError;
-                serializedResponse = JsonConvert.SerializeObject(response);
-                Logger.LogError(serializedResponse);
-            }
-            return response;
-        }
-
-        public async Task<RegisterResponseDto> RegisterUser(RegisterRequestDto request)
-        {
-            RegisterResponseDto response = new ()
-            {
-                ResponseMessage = Resource.Failed,
-                ResponseCode = ResponseCodes.FailedToProcess
-            };
-            
-            try
-            {
-                using var transaction = _context.Database.BeginTransaction();
-                
-                var isAlreadyUserWithSameMobileNumber = await IsMobileRegistered(request.MobileNumber);
-                if (!isAlreadyUserWithSameMobileNumber)
-                {
-                    var user = Mapper.Map<User>(request);
-                    var registered = await _userManager.CreateAsync(user, request.Password);
-
-                    if (!registered.Succeeded)
-                    {
-                        await transaction.RollbackAsync();
-                        response.ResponseMessage ="Error While Registring the user" + string.Join(',', SetErrorMessage(registered.Errors));
-                        serializedResponse = JsonConvert.SerializeObject(response);
-                        Logger.LogError(serializedResponse);
-                        return response;
-                    }
-                    var cashInResponse = await _walletManageService.CashIn(request.MobileNumber);
-                    if(!cashInResponse.ResponseCode.Equals(ResponseCodes.ProcessedSuccessfully))
-                    {
-                        await transaction.RollbackAsync();
-                        response.ResponseMessage = cashInResponse.ResponseMessage;
-                        response.ResponseCode = cashInResponse.ResponseCode;
-                        serializedResponse = JsonConvert.SerializeObject(cashInResponse);
-                        Logger.LogError(serializedResponse);
-                        return response;
-                    }
-
-                    response.ResponseMessage = Resource.Sucess;
-                    response.ResponseCode = ResponseCodes.ProcessedSuccessfully;
-                    await transaction.CommitAsync();
-                }
-                else
-                {
-                    response.ResponseMessage = Resource.DuplicateMobileNumber;
-                    response.ResponseCode = ResponseCodes.DuplicatedNumber;
-                    serializedResponse = JsonConvert.SerializeObject(response);
-                    Logger.LogError(serializedResponse);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Logger.LogError(ex.Message, ex.StackTrace);
-                response.ResponseMessage = Resource.GeneralError;
-                response.ResponseCode = ResponseCodes.GeneralError;
+                response.ResponseMessage = Resource.DuplicateMobileNumber;
+                response.ResponseCode = ResponseCodes.DuplicatedNumber;
                 serializedResponse = JsonConvert.SerializeObject(response);
                 Logger.LogError(serializedResponse);
             }
 
-            return response;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex.Message, ex.StackTrace);
+            response.ResponseMessage = Resource.GeneralError;
+            response.ResponseCode = ResponseCodes.GeneralError;
+            serializedResponse = JsonConvert.SerializeObject(response);
+            Logger.LogError(serializedResponse);
         }
 
-        private IEnumerable<string> SetErrorMessage(IEnumerable<IdentityError> errors)
-        {
-            foreach (var error in errors)
-                yield return error.Description;
-        }
+        return response;
+    }
 
-        private string GenerateToken(LoginRequestDto request)
+    private IEnumerable<string> SetErrorMessage(IEnumerable<IdentityError> errors)
+    {
+        foreach (var error in errors)
+            yield return error.Description;
+    }
+
+    private string GenerateToken(LoginRequestDto request)
+    {
+        SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+        var claims = new[]
         {
-            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-            var claims = new[]
-            {
-                new Claim(ClaimTypes.MobilePhone,request.MobileNumber)
-            };
-            var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
-                _configuration["Jwt:Audience"],
-                claims,
-                expires: DateTime.Now.AddMinutes(60),
-                signingCredentials: credentials);
-            return new JwtSecurityTokenHandler().WriteToken(token);
-        }
+            new Claim(ClaimTypes.MobilePhone,request.MobileNumber)
+        };
+        var token = new JwtSecurityToken(_configuration["Jwt:Issuer"],
+            _configuration["Jwt:Audience"],
+            claims,
+            expires: DateTime.Now.AddMinutes(60),
+            signingCredentials: credentials);
+        return new JwtSecurityTokenHandler().WriteToken(token);
     }
 }

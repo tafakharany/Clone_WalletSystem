@@ -4,9 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wallet.Application.Dtos.Response
+namespace Wallet.Application.Dtos.Response;
+
+public class RegisterResponseDto : ResponseDto
 {
-    public class RegisterResponseDto : ResponseDto
-    {
-    }
 }

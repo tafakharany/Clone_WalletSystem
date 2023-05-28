@@ -2,37 +2,36 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Wallet.Filters
+namespace Wallet.API.Filters;
+
+public class ValidateAntiforgeryTokenAuthorizationFilter : IAuthorizationFilter
 {
-    public class ValidateAntiforgeryTokenAuthorizationFilter : IAuthorizationFilter
+    private readonly string _antiforgeryHeaderName;
+    private readonly string _antiforgeryCookieName;
+
+    public ValidateAntiforgeryTokenAuthorizationFilter()
     {
-        private readonly string _antiforgeryHeaderName;
-        private readonly string _antiforgeryCookieName;
+        _antiforgeryHeaderName = "X-CSRF-TOKEN"; // The name of the header that includes the antiforgery token.
+        _antiforgeryCookieName = ".AspNetCore.Antiforgery"; // The name of the cookie that includes the antiforgery token.
+    }
 
-        public ValidateAntiforgeryTokenAuthorizationFilter()
+    public void OnAuthorization(AuthorizationFilterContext context)
+    {
+        var antiforgery = context.HttpContext.RequestServices.GetRequiredService<IAntiforgery>();
+
+        var headers = context.HttpContext.Request.Headers;
+        var cookies = context.HttpContext.Request.Cookies;
+
+        if (headers.ContainsKey(_antiforgeryHeaderName) && cookies.ContainsKey(_antiforgeryCookieName))
         {
-            _antiforgeryHeaderName = "X-CSRF-TOKEN"; // The name of the header that includes the antiforgery token.
-            _antiforgeryCookieName = ".AspNetCore.Antiforgery"; // The name of the cookie that includes the antiforgery token.
+            var headerToken = headers[_antiforgeryHeaderName];
+            var cookieToken = cookies[_antiforgeryCookieName];
+
+            antiforgery.ValidateRequestAsync(context.HttpContext).Wait();
         }
-
-        public void OnAuthorization(AuthorizationFilterContext context)
+        else
         {
-            var antiforgery = context.HttpContext.RequestServices.GetRequiredService<IAntiforgery>();
-
-            var headers = context.HttpContext.Request.Headers;
-            var cookies = context.HttpContext.Request.Cookies;
-
-            if (headers.ContainsKey(_antiforgeryHeaderName) && cookies.ContainsKey(_antiforgeryCookieName))
-            {
-                var headerToken = headers[_antiforgeryHeaderName];
-                var cookieToken = cookies[_antiforgeryCookieName];
-
-                antiforgery.ValidateRequestAsync(context.HttpContext).Wait();
-            }
-            else
-            {
-                context.Result = new StatusCodeResult(403);
-            }
+            context.Result = new StatusCodeResult(403);
         }
     }
 }

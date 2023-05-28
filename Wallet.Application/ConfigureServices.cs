@@ -10,17 +10,16 @@ using Wallet.Application.Dtos.Requests;
 using Wallet.Application.Dtos.Requests.Validators;
 using Wallet.Application.Mappers;
 
-namespace Wallet.Application
+namespace Wallet.Application;
+
+public static class ConfigureServices
 {
-    public static class ConfigureServices
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
-        {
-            services.AddAutoMapper(typeof(Profiles));
-            services.AddScoped<IValidator<RegisterRequestDto>, RegisterRequestValidator>();
-            services.AddScoped<IValidator<LoginRequestDto>, LoginRequestValidator>();
-            services.AddScoped<IValidator<TransferRequestDto>, TransferRequestValidator>();
-            return services;
-        }
+        services.AddAutoMapper(typeof(Profiles));
+        services.AddScoped<IValidator<RegisterRequestDto>, RegisterRequestValidator>();
+        services.AddScoped<IValidator<LoginRequestDto>, LoginRequestValidator>();
+        services.AddScoped<IValidator<TransferRequestDto>, TransferRequestValidator>();
+        return services;
     }
 }
