@@ -1,8 +1,7 @@
 using Serilog;
+using Wallet.API.ServiceExtenstions;
 using Wallet.Application;
-using Wallet.Filters;
 using Wallet.Infrastructure;
-using Wallet.ServiceExtenstions;
 
 var configuration = new ConfigurationBuilder()
                                             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -16,12 +15,7 @@ WebApplication app;
 
 try
 {
-
     // Add services to the container.-
-    //builder.Services.AddControllers(options =>
-    //{
-    //    options.Filters.Add(typeof(ValidateAntiforgeryTokenAuthorizationFilter));
-    //});
     builder.Services.AddControllers();
 
     var services = builder.Services;

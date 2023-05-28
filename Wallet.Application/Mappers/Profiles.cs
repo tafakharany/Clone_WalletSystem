@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wallet.Application.Mappers
+namespace Wallet.Application.Mappers;
+
+public class Profiles : Profile
 {
-    public class Profiles : Profile
-    {
-    }
 }

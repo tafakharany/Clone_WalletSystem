@@ -6,13 +6,12 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace Wallet.Application.Dtos.Requests
+namespace Wallet.Application.Dtos.Requests;
+
+public class TransferRequestDto
 {
-    public class TransferRequestDto
-    {
-        [JsonIgnore]
-        public string? SenderMobileNumber { get; set; }
-        public string RecipientMobileNumber { get; set; }
-        public decimal Amount { get; set; }
-    }
+    [JsonIgnore]
+    public string? SenderMobileNumber { get; set; }
+    public string RecipientMobileNumber { get; set; }
+    public decimal Amount { get; set; }
 }

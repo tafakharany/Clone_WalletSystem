@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wallet.Application.Dtos.Response
+namespace Wallet.Application.Dtos.Response;
+
+public class BalanceResponseDto : ResponseDto
 {
-    public class BalanceResponseDto : ResponseDto
-    {
-          public decimal Balance { get; set; }
-    }
+      public decimal Balance { get; set; }
 }

@@ -1,18 +1,23 @@
 # Build Stage
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
-WORKDIR /source
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS base
+WORKDIR /app
 
 # copy the source code and restore dependencies
+FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+WORKDIR /Wallet
 COPY . .
 RUN dotnet restore "./Wallet.API/Wallet.API.csproj" --disable-parallel
 
 # build the app
-RUN dotnet publish "./Wallet.API/Wallet.API.csproj" -c Release -o /app --no-restore
+RUN dotnet build "./Wallet.API/Wallet.API.csproj" -c Release -o /app/build
 
-# Server Stage
-FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS server
-WORKDIR /app
-COPY --from=build /app ./
+# publish
+FROM build AS publish
+RUN dotnet publish "./Wallet.API/Wallet.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
-EXPOSE 5000
+# final Stage
+EXPOSE 4430
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS final
+FROM base AS final
+COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Wallet.API.dll"]

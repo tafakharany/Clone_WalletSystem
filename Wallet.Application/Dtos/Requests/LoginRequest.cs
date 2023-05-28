@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Wallet.Application.Dtos.Requests
+namespace Wallet.Application.Dtos.Requests;
+
+public class LoginRequestDto: BaseRequestDto
 {
-    public class LoginRequestDto: BaseRequestDto
-    {
-       
-    }
+   
 }
