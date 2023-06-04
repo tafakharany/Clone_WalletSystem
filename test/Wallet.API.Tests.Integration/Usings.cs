@@ -1,0 +1,11 @@
+global using Xunit;
+global using FluentAssertions;
+global using Microsoft.AspNetCore.Mvc.Testing;
+global using System.Net;
+global using System.Net.Http.Json;
+global using System.Net.Http.Headers;
+global using Wallet.API.TestsUtils;
+global using Wallet.Application.Dtos.Common;
+global using Wallet.Application.Dtos.Requests;
+global using Wallet.Application.Dtos.Response;
+global using Wallet.Resources;

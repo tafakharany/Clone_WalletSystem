@@ -1,0 +1,7 @@
+C:\Users\tahaa\source\repos\Wallet\test\Wallet.API.Tests.Integration\bin\Debug\net7.0\CoverletSourceRootsMapping_Wallet.API.Tests.Integration
+C:\Users\tahaa\source\repos\Wallet\test\Wallet.API.Tests.Integration\obj\Debug\net7.0\Wallet.API.Tests.Integration.csproj.AssemblyReference.cache
+C:\Users\tahaa\source\repos\Wallet\test\Wallet.API.Tests.Integration\obj\Debug\net7.0\MvcTestingAppManifest.json
+C:\Users\tahaa\source\repos\Wallet\test\Wallet.API.Tests.Integration\obj\Debug\net7.0\Wallet.API.Tests.Integration.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tahaa\source\repos\Wallet\test\Wallet.API.Tests.Integration\obj\Debug\net7.0\Wallet.API.Tests.Integration.AssemblyInfoInputs.cache
+C:\Users\tahaa\source\repos\Wallet\test\Wallet.API.Tests.Integration\obj\Debug\net7.0\Wallet.API.Tests.Integration.AssemblyInfo.cs
+C:\Users\tahaa\source\repos\Wallet\test\Wallet.API.Tests.Integration\obj\Debug\net7.0\Wallet.API.Tests.Integration.csproj.CoreCompileInputs.cache
